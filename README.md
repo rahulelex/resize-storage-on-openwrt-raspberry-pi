@@ -16,41 +16,41 @@ The Raspberry Pi now has internet access, allowing it to download software.
 ### Step 3. ssh in the openwrt device
 To ssh your Raspberry Pi use below command (make sure Raspberry Pi is connected to your computer using RJ45 cable):
 ```sh
-$ ssh root@192.168.1.1
+ssh root@192.168.1.1
 ```
 ### Step 4. Install the required packages
 ```sh
-$ opkg update
-$ opkg install cfdisk resize2fs tune2fs
+opkg update
+opkg install cfdisk resize2fs tune2fs
 ```
 ### Step 5. Resize the partition
 ```sh
-$ cfdisk /dev/mmcblk0
+cfdisk /dev/mmcblk0
 ```
 Now Resize the /dev/mmcblk0p2 partition (enter desired space). After this write the changes and quit.
 ```sh
-$ reboot
+reboot
 ```
 ### Step 6. remount root as RO (if fails, reboot and remount as ro again)
 ```sh
-$ mount -o remount,ro /
+mount -o remount,ro /
 ```
 ### Step 7. Remove reserved GDT blocks
 ```sh
-$ tune2fs -O^resize_inode /dev/mmcblk0p2
-$ fsck.ext4 /dev/mmcblk0p2 
+tune2fs -O^resize_inode /dev/mmcblk0p2
+fsck.ext4 /dev/mmcblk0p2 
 ```
 (This might probably fail, doesn't seem to affect anything though)
 ```sh
-$ reboot
+reboot
 ```
 ### Step 8. Resize the f2fs filesystem
 ```sh 
-$ resize2fs /dev/mmcblk0p2
+resize2fs /dev/mmcblk0p2
 ```
 ### Step 9. Check new root partition size with:
 ```sh
-$ df –h
+df –h
 ```
 This will successfully increase your storage.
 
